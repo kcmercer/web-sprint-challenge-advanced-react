@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState} from 'react'
 import axios from 'axios';
 
 const initialState = {
@@ -12,7 +12,7 @@ const initialState = {
 export default function AppFunctional(props) {
   const [ value, setValue ] = useState(initialState)
 
-  const xDown = () => {
+  const ySubtract = () => {
     value.y <= 3 && value.y >= 2 ? 
     setValue({
       ...value, 
@@ -26,7 +26,7 @@ export default function AppFunctional(props) {
     })
   }
 
-  const yDown = () => {
+  const xAdd = () => {
     value.x <= 2 && value.x >= 1 ? 
     setValue({
       ...value, 
@@ -38,7 +38,7 @@ export default function AppFunctional(props) {
       message: "You can't go right"})
   }
 
-  const xUp = () => {
+  const yAdd = () => {
     value.y <= 2 && value.y >= 1 ? 
     setValue({
       ...value, 
@@ -50,7 +50,7 @@ export default function AppFunctional(props) {
       message: "You can't go down"})
   }
 
-  const yUp = () => {
+  const xSubtract = () => {
     value.x <= 3 && value.x >= 2 ? 
     setValue({
       ...value, 
@@ -161,10 +161,10 @@ export default function AppFunctional(props) {
       </div>
 
       <div id="keypad">
-        <button onClick={yUp} id="left">LEFT</button>
-        <button onClick={xDown} id="up">UP</button>
-        <button onClick={yDown} id="right">RIGHT</button>
-        <button onClick={xUp} id="down">DOWN</button>
+        <button onClick={xSubtract} id="left">LEFT</button>
+        <button onClick={ySubtract} id="up">UP</button>
+        <button onClick={xAdd} id="right">RIGHT</button>
+        <button onClick={yAdd} id="down">DOWN</button>
         <button onClick={fullReset} id="reset">reset</button>
       </div>
 
