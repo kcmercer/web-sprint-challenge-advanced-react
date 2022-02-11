@@ -64,7 +64,7 @@ export default class AppClass extends React.Component {
     this.setState({
       ...this.state, 
       y: this.state.y === 3 ? 3 : this.state.y, 
-      message: "You can't go left"
+      message: "You can't go up"
     })
   }
 
@@ -77,7 +77,7 @@ export default class AppClass extends React.Component {
     this.setState({
       ...this.state, 
       x: this.state.x === 3 ? 3 : this.state.x, 
-      message: "You can't go down"})
+      message: "You can't go right"})
   }
 
   xUp = () => {
@@ -89,7 +89,7 @@ export default class AppClass extends React.Component {
     this.setState({
       ...this.state, 
       y: this.state.y === 3 ? 3 : this.state.y, 
-      message: "You can't go right"})
+      message: "You can't go down"})
   }
 
   yUp = () => {
@@ -102,7 +102,7 @@ export default class AppClass extends React.Component {
     this.setState({
       ...this.state, 
       x: this.state.x === 3 ? 3 : this.state.x, 
-      message: "You can't go up"})
+      message: "You can't go left"})
   }
 
   fullReset = () => {
@@ -147,6 +147,11 @@ export default class AppClass extends React.Component {
         this.setState({
           ...this.state,
           message: 'foo@bar.baz failure #71'
+        })
+      } else if (this.state.email === '') {
+        this.setState({
+          ...this.state,
+          message: 'Ouch: email is required'
         })
       } else {
         this.setState({
@@ -214,7 +219,7 @@ export default class AppClass extends React.Component {
     return (
       <div id="wrapper" className={className}>
         <div className="info">
-          <h3 id="coordinates">Coordinates ({this.state.x}, {this.state.y}) </h3>
+          <h3 id="coordinates">Coordinates ({this.state.x}, {this.state.y})</h3>
           <h3 id="steps">You moved {this.state.steps} {this.state.steps !== 1 ? 'times' : 'time'}</h3>
         </div>
 
@@ -222,26 +227,26 @@ export default class AppClass extends React.Component {
           <div className={this.state.x === 1 && this.state.y === 1 ? 'square active' : 'square'}>
             {this.state.x === 1 && this.state.y === 1 ? 'B' : ''}
           </div>
-          <div className={this.state.x === 1 && this.state.y === 2 ? 'square active' : 'square'}>
-            {this.state.x === 1 && this.state.y === 2 ? 'B' : ''}
-          </div>
-          <div className={this.state.x === 1 && this.state.y === 3 ? 'square active' : 'square'}>
-            {this.state.x === 1 && this.state.y === 3 ? 'B' : ''}
-          </div>
           <div className={this.state.x === 2 && this.state.y === 1 ? 'square active' : 'square'}>
             {this.state.x === 2 && this.state.y === 1 ? 'B' : ''}
-          </div>
-          <div className={this.state.x === 2 && this.state.y === 2 ? 'square active' : 'square'}>
-            {this.state.x === 2 && this.state.y === 2 ? 'B' : ''}
-          </div>
-          <div className={this.state.x === 2 && this.state.y === 3 ? 'square active' : 'square'}>
-            {this.state.x === 2 && this.state.y === 3 ? 'B' : ''}
           </div>
           <div className={this.state.x === 3 && this.state.y === 1 ? 'square active' : 'square'}>
             {this.state.x === 3 && this.state.y === 1 ? 'B' : ''}
           </div>
+          <div className={this.state.x === 1 && this.state.y === 2 ? 'square active' : 'square'}>
+            {this.state.x === 1 && this.state.y === 2 ? 'B' : ''}
+          </div>
+          <div className={this.state.x === 2 && this.state.y === 2 ? 'square active' : 'square'}>
+            {this.state.x === 2 && this.state.y === 2 ? 'B' : ''}
+          </div>
           <div className={this.state.x === 3 && this.state.y === 2 ? 'square active' : 'square'}>
             {this.state.x === 3 && this.state.y === 2 ? 'B' : ''}
+          </div>
+          <div className={this.state.x === 1 && this.state.y === 3 ? 'square active' : 'square'}>
+            {this.state.x === 1 && this.state.y === 3 ? 'B' : ''}
+          </div>
+          <div className={this.state.x === 2 && this.state.y === 3 ? 'square active' : 'square'}>
+            {this.state.x === 2 && this.state.y === 3 ? 'B' : ''}
           </div>
           <div className={this.state.x === 3 && this.state.y === 3 ? 'square active' : 'square'}>
             {this.state.x === 3 && this.state.y === 3 ? 'B' : ''}
@@ -253,10 +258,10 @@ export default class AppClass extends React.Component {
         </div>
 
         <div id="keypad">
-          <button onClick={this.xDown} id="left">LEFT</button>
-          <button onClick={this.yUp} id="up">UP</button>
-          <button onClick={this.xUp} id="right">RIGHT</button>
-          <button onClick={this.yDown} id="down">DOWN</button>
+          <button onClick={this.yUp} id="left">LEFT</button>
+          <button onClick={this.xDown} id="up">UP</button>
+          <button onClick={this.yDown} id="right">RIGHT</button>
+          <button onClick={this.xUp} id="down">DOWN</button>
           <button onClick={this.fullReset} id="reset">reset</button>
         </div>
 
