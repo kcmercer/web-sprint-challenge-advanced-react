@@ -36,11 +36,17 @@ export default class AppClass extends React.Component {
         y: Math.min(3, state.y + 1)
       }))
     } else if (e.target.id === 'reset') {
+      const input = document.querySelector('#email')
+      const messageBox = document.querySelector('#message')
+      input.value = ''
+      messageBox.value = ''
+
       this.setState((state) => ({
         ...state,
         x: 2,
         y: 2,
         steps: 0,
+        email: '',
       }))
     } else {
       console.log('What is going on..?')
@@ -49,6 +55,7 @@ export default class AppClass extends React.Component {
 
   onChange = e => {
     this.setState({
+      ...this.state,
       email: e.target.value
     })
   }
@@ -56,6 +63,13 @@ export default class AppClass extends React.Component {
   onSubmit = e => {
     e.preventDefault();
     const messageBox = document.querySelector('#message')
+    const input = document.querySelector('#email')
+    input.value = ''
+
+    this.setState({
+      ...this.state,
+      email: '',
+    })
     // console.log(messageBox)
     axios.post('http://localhost:9000/api/result', this.state)
     .then(resp => {
@@ -69,8 +83,8 @@ export default class AppClass extends React.Component {
 
   componentDidUpdate() {
     const grid = document.querySelectorAll('div.square')
-    const messageBox = document.querySelector('#message')
-    console.log('update')
+    // const messageBox = document.querySelector('#message')
+    // console.log('update')
 
     Array.from(grid).map(el => {
       el.classList.remove('active'),
@@ -123,7 +137,7 @@ export default class AppClass extends React.Component {
       <div id="wrapper" className={className}>
         <div className="info">
           <h3 id="coordinates">Coordinates ({this.state.x},{this.state.y}) </h3>
-          <h3 id="steps">You moved {this.state.steps} times</h3>
+          <h3 id="steps">You moved {this.state.steps} {this.state.steps !== 1 ? 'times' : 'time'}</h3>
         </div>
         <div id="grid">
           <div className="square"></div>

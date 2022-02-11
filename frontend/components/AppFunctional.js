@@ -8,8 +8,13 @@ const initialState = {
     email: ''
 }
 
+const initialInput = {
+  email: ''
+}
+
 export default function AppFunctional(props) {
   const [ value, setValue ] = useState(initialState)
+  const [ emailInput, setEmailInput ] = useState(initialInput)
 
   const moveSquare = e => {
 
@@ -38,11 +43,15 @@ export default function AppFunctional(props) {
         y: Math.min(3, value.y + 1)
       })
     } else if (e.target.id === 'reset') {
+      const input = document.querySelector('#email')
+      input.value = ''
+
       setValue({
         ...value,
         x: 2,
         y: 2,
         steps: 0,
+        email: '',
       })
     } else {
       console.log('What is going on..?')
@@ -50,13 +59,18 @@ export default function AppFunctional(props) {
   }
 
   const onChange = e => {
-    setValue({
+    setEmailInput({
       email: e.target.value
     })
   }
 
   const onSubmit = e => {
     e.preventDefault();
+
+    setValue({
+      ...value,
+      email: emailInput.email
+    })
 
     const messageBox = document.querySelector('#message')
     // console.log(messageBox)
@@ -73,7 +87,7 @@ export default function AppFunctional(props) {
 
   useEffect(() => {
     const grid = document.querySelectorAll('div.square')
-    const messageBox = document.querySelector('#message')
+    // const messageBox = document.querySelector('#message')
 
     Array.from(grid).map(el => {
       el.classList.remove('active'),
@@ -128,6 +142,7 @@ export default function AppFunctional(props) {
         <h3 id="coordinates">Coordinates ({value.x}, {value.y})</h3>
         <h3 id="steps">You moved {value.steps} times</h3>
       </div>
+
       <div id="grid">
         <div className="square"></div>
         <div className="square"></div>
@@ -139,9 +154,11 @@ export default function AppFunctional(props) {
         <div className="square"></div>
         <div className="square"></div>
       </div>
+
       <div className="info">
         <h3 id="message"></h3>
       </div>
+
       <div id="keypad">
         <button onClick={moveSquare} id="left">LEFT</button>
         <button onClick={moveSquare} id="up">UP</button>
@@ -149,6 +166,7 @@ export default function AppFunctional(props) {
         <button onClick={moveSquare} id="down">DOWN</button>
         <button onClick={moveSquare} id="reset">reset</button>
       </div>
+
       <form>
         <input onChange={onChange} id="email" type="email" placeholder="type email"></input>
         <input onClick={onSubmit} id="submit" type="submit"></input>
