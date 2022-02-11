@@ -1,4 +1,5 @@
 import React from 'react'
+import axios from 'axios';
 
 export default class AppClass extends React.Component {
   state = {
@@ -9,37 +10,31 @@ export default class AppClass extends React.Component {
   }
 
   moveSquare = e => {
-    console.log('Click Registered', e.target.id)
     if (e.target.id === 'up') {
-      console.log('Clicked Up Button')
       this.setState((state) => ({
         ...state,
         steps: state.steps + 1,
-        y: state.y - 1
+        y: Math.max(1, state.y - 1)
       }))
     } else if (e.target.id === 'left') {
-      console.log('Clicked Left Button')
       this.setState((state) => ({
         ...state,
         steps: state.steps + 1,
-        x: state.x - 1
+        x: Math.max(1, state.x - 1)
       }))
     } else if (e.target.id === 'right') {
-      console.log('Clicked Right Button')
       this.setState((state) => ({
         ...state,
         steps: state.steps + 1,
-        x: state.x + 1
+        x: Math.min(3, state.x + 1)
       }))
     } else if (e.target.id === 'down') {
-      console.log('Clicked Down Button')
       this.setState((state) => ({
         ...state,
         steps: state.steps + 1,
-        y: state.y + 1
+        y: Math.min(3, state.y + 1)
       }))
     } else if (e.target.id === 'reset') {
-      console.log('Clicks Reset')
       this.setState((state) => ({
         ...state,
         x: 2,
@@ -51,26 +46,71 @@ export default class AppClass extends React.Component {
     }
   }
 
+  onChange = e => {
+    this.setState({
+      email: e.target.value
+    })
+  }
+
+  onSubmit = e => {
+    e.preventDefault();
+    const messageBox = document.querySelector('#message')
+    // console.log(messageBox)
+    axios.post('http://localhost:9000/api/result', this.state)
+    .then(resp => {
+      messageBox.innerHTML = resp.data.message
+    })
+    .catch(error => {
+      console.log(error.message)
+      messageBox.innerHTML = error.message
+    })
+  }
+
   componentDidUpdate() {
-    console.log('Update!')
+    const grid = document.querySelectorAll('div.square')
+    const messageBox = document.querySelector('#message')
+
+    Array.from(grid).map(el => {
+      el.classList.remove('active'),
+      el.innerHTML = ''
+    })
+
+    // axios.post('http://localhost:9000/api/result', this.state)
+    // .then(resp => {
+    //   messageBox.innerHTML = resp.data.message
+    // })
+    // .catch(error => {
+    //   console.log(error.message)
+    //   messageBox.innerHTML = error.message
+    // })
+
     if (this.state.x === 1 && this.state.y === 1) {
-      console.log('On Square (1, 1)')
+      grid[0].classList.add('active')
+      grid[0].innerHTML = 'B'
     } else if (this.state.x === 1 && this.state.y === 2) {
-      console.log('On Square (1, 2)')
+      grid[3].classList.add('active')
+      grid[3].innerHTML = 'B'
     } else if (this.state.x === 1 && this.state.y === 3) {
-      console.log('On Square (1, 3)')
+      grid[6].classList.add('active')
+      grid[6].innerHTML = 'B'
     } else if (this.state.x === 2 && this.state.y === 1) {
-      console.log('On Square (2, 1)')
+      grid[1].classList.add('active')
+      grid[1].innerHTML = 'B'
     } else if (this.state.x === 2 && this.state.y === 2) {
-      console.log('On Square (2, 2)')
+      grid[4].classList.add('active')
+      grid[4].innerHTML = 'B'
     } else if (this.state.x === 2 && this.state.y === 3) {
-      console.log('On Square (2, 3)')
+      grid[7].classList.add('active')
+      grid[7].innerHTML = 'B'
     } else if (this.state.x === 3 && this.state.y === 1) {
-      console.log('On Square (3, 1)')
+      grid[2].classList.add('active')
+      grid[2].innerHTML = 'B'
     } else if (this.state.x === 3 && this.state.y === 2) {
-      console.log('On Square (3, 2)')
+      grid[5].classList.add('active')
+      grid[5].innerHTML = 'B'
     } else if (this.state.x === 3 && this.state.y === 3) {
-      console.log('On Square (3, 3)')
+      grid[8].classList.add('active')
+      grid[8].innerHTML = 'B'
     } else {
       console.log('Not sure how this happened...')
     }
@@ -106,10 +146,12 @@ export default class AppClass extends React.Component {
           <button onClick={this.moveSquare} id="reset">reset</button>
         </div>
         <form>
-          <input id="email" type="email" placeholder="type email"></input>
-          <input id="submit" type="submit"></input>
+          <input onChange={this.onChange} id="email" type="email" placeholder="type email"></input>
+          <input onClick={this.onSubmit} id="submit" type="submit"></input>
         </form>
       </div>
     )
   }
 }
+
+// disabled={this.state.x <= 1}
