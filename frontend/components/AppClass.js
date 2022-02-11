@@ -10,6 +10,7 @@ export default class AppClass extends React.Component {
   }
 
   moveSquare = e => {
+
     if (e.target.id === 'up') {
       this.setState((state) => ({
         ...state,
@@ -69,12 +70,12 @@ export default class AppClass extends React.Component {
   componentDidUpdate() {
     const grid = document.querySelectorAll('div.square')
     const messageBox = document.querySelector('#message')
+    console.log('update')
 
     Array.from(grid).map(el => {
       el.classList.remove('active'),
       el.innerHTML = ''
     })
-
     // axios.post('http://localhost:9000/api/result', this.state)
     // .then(resp => {
     //   messageBox.innerHTML = resp.data.message
